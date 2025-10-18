@@ -11,7 +11,7 @@ const Display = ({ currentValue, historyExpression }) => {
       </div>
       <div
         data-testid="calculator-display"
-        className="text-white text-5xl font-semibold overflow-x-auto scrollbar-hide text-right leading-tight break-all"
+        className="text-white text-4xl font-semibold overflow-x-auto scrollbar-hide text-right leading-tight break-all"
       >
         {formatDisplayValue(currentValue)}
       </div>

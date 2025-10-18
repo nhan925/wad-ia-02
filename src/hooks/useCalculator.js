@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { performOperation as calculate } from '../utils/calculatorUtils';
+import { performOperation as calculate, normalizeInput as normalize, formatDisplayValue } from '../utils/calculatorUtils';
 
 /**
  * Custom hook for calculator logic
@@ -42,7 +42,7 @@ export const useCalculator = () => {
       setCurrentValue(String(num));
       setWaitingForOperand(false);
     } else {
-      setCurrentValue(currentValue === '0' ? String(num) : currentValue + num);
+      setCurrentValue(normalize(currentValue === '0' ? String(num) : currentValue + num));
     }
   }, [currentValue, waitingForOperand]);
 
@@ -112,7 +112,7 @@ export const useCalculator = () => {
       return;
     }
     const result = Math.sqrt(value);
-    const expression = `√(${value})`;
+    const expression = `√(${formatDisplayValue(value)})`;
     setCurrentValue(String(result));
     setHistoryExpression(expression);
     setWaitingForOperand(true);
@@ -142,7 +142,7 @@ export const useCalculator = () => {
       }
       
       setCurrentValue(String(result));
-      setHistoryExpression(`${previousValue} ${operation} ${result}`);
+      setHistoryExpression(`${formatDisplayValue(previousValue)} ${operation} ${formatDisplayValue(result)}`);
     } else {
       const result = current / 100;
       setCurrentValue(String(result));
@@ -159,7 +159,7 @@ export const useCalculator = () => {
 
     if (previousValue === null) {
       setPreviousValue(currentValue);
-      setHistoryExpression(`${currentValue} ${nextOperator}`);
+      setHistoryExpression(`${formatDisplayValue(currentValue)} ${nextOperator}`);
     } else if (operation && !waitingForOperand) {
       const result = calculate(operation, previousValue, currentValue);
       
@@ -174,9 +174,9 @@ export const useCalculator = () => {
       const newValue = String(result);
       setCurrentValue(newValue);
       setPreviousValue(newValue);
-      setHistoryExpression(`${newValue} ${nextOperator}`);
+      setHistoryExpression(`${formatDisplayValue(newValue)} ${nextOperator}`);
     } else {
-      setHistoryExpression(`${previousValue} ${nextOperator}`);
+      setHistoryExpression(`${formatDisplayValue(previousValue)} ${nextOperator}`);
     }
 
     setWaitingForOperand(true);
@@ -197,8 +197,8 @@ export const useCalculator = () => {
         setHistoryExpression('');
         return;
       }
-      
-      const expression = `${currentValue} ${lastOperation} ${lastOperand} =`;
+
+      const expression = `${formatDisplayValue(currentValue)} ${lastOperation} ${formatDisplayValue(lastOperand)} =`;
       setCurrentValue(String(result));
       setHistoryExpression(expression);
       addToHistory(expression, String(result));
@@ -206,7 +206,7 @@ export const useCalculator = () => {
     }
 
     if (previousValue === null || operation === null) {
-      setHistoryExpression(`${currentValue} =`);
+      setHistoryExpression(`${formatDisplayValue(currentValue)} =`);
       return;
     }
 
@@ -220,7 +220,7 @@ export const useCalculator = () => {
       return;
     }
 
-    const expression = `${previousValue} ${operation} ${currentValue} =`;
+    const expression = `${formatDisplayValue(previousValue)} ${operation} ${formatDisplayValue(currentValue)} =`;
     setLastOperation(operation);
     setLastOperand(currentValue);
     setCurrentValue(String(result));
@@ -237,7 +237,7 @@ export const useCalculator = () => {
   const handleSquare = () => {
     const value = parseFloat(currentValue);
     const result = value * value;
-    const expression = `sqr(${value})`;
+    const expression = `sqr(${formatDisplayValue(value)})`;
     setCurrentValue(String(result));
     setHistoryExpression(expression);
     setWaitingForOperand(true);
@@ -253,7 +253,7 @@ export const useCalculator = () => {
       return;
     }
     const result = 1 / value;
-    const expression = `1/(${value})`;
+    const expression = `1/(${formatDisplayValue(value)})`;
     setCurrentValue(String(result));
     setHistoryExpression(expression);
     setWaitingForOperand(true);
