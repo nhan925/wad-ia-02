@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom colors for calculator */
+  --color-calc-bg: rgba(32, 32, 32, 0.95);
+  --color-calc-header: rgba(0, 0, 0, 0.2);
+  --color-calc-display: rgba(0, 0, 0, 0.2);
+  --color-calc-button: rgba(60, 60, 60, 0.8);
+  --color-calc-button-hover: rgba(80, 80, 80, 0.9);
+  --color-calc-function: rgba(50, 50, 50, 0.8);
+  --color-calc-operator: rgba(70, 70, 70, 0.8);
+  --color-calc-equals: #0078d4;
+  --color-calc-equals-hover: #1084d8;
+  
+  /* Custom backdrop blur */
+  --backdrop-blur-20: 20px;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+  }
+
+  #root {
+    @apply flex justify-center items-center p-4;
+  }
+
+  /* Ensure proper scrollbar styling */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
