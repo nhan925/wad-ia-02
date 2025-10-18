@@ -144,7 +144,7 @@ const Calculator = () => {
           <div className="bg-calc-header px-5 py-3.5 border-b border-white/10">
             <div className="flex items-center justify-between">
               <h1 className="text-white text-base font-semibold flex items-center gap-2">
-                <img src="public/logo.svg" alt="Calculator Logo" className="w-[0.8em]" />
+                <img src="/logo.svg" alt="Calculator Logo" className="w-[0.8em]" />
                 Calculator
               </h1>
               <button
