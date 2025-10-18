@@ -144,16 +144,15 @@ const Calculator = () => {
           <div className="bg-calc-header px-5 py-3.5 border-b border-white/10">
             <div className="flex items-center justify-between">
               <h1 className="text-white text-base font-semibold flex items-center gap-2">
-                <span className="text-lg">🖩</span> Calculator
+                <img src="public/logo.svg" alt="Calculator Logo" className="w-[0.8em]" />
+                Calculator
               </h1>
               <button
                 onClick={toggleHistory}
-                className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+                className="text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors active:scale-95"
                 title="Toggle History"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                </svg>
+                <span className='font-calcicons font-light'>{'\uE81C'}</span>
               </button>
             </div>
           </div>

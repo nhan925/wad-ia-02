@@ -6,14 +6,15 @@
   --color-calc-header: rgba(0, 0, 0, 0.2);
   --color-calc-display: rgba(0, 0, 0, 0.2);
   --color-calc-button: rgba(60, 60, 60, 0.8);
-  --color-calc-button-hover: rgba(80, 80, 80, 0.9);
-  --color-calc-function: rgba(50, 50, 50, 0.8);
-  --color-calc-operator: rgba(70, 70, 70, 0.8);
+  --color-calc-button-bold: rgba(50, 50, 50, 0.8);
   --color-calc-equals: #0078d4;
   --color-calc-equals-hover: #1084d8;
-  
+
   /* Custom backdrop blur */
   --backdrop-blur-20: 20px;
+
+  /* Font family for calculator icons */
+  --font-calcicons: 'CalculatorIcons', sans-serif;
 }
 
 @layer base {
@@ -30,7 +31,8 @@
 
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #3F5EFB;
+    background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
     overflow: hidden;
   }
 
@@ -64,4 +66,11 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
   }
+}
+
+@font-face {
+  font-family: 'CalculatorIcons';
+  src: url('/fonts/CalculatorIcons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

@@ -28,7 +28,7 @@ const MemoryButtons = ({
             text-xs font-semibold px-2 py-2 rounded transition-colors
             ${btn.disabled 
               ? 'bg-transparent text-white/30 cursor-not-allowed' 
-              : 'bg-transparent text-white/70 hover:text-white hover:bg-white/10 cursor-pointer'
+              : 'bg-transparent text-white/70 hover:text-white hover:bg-white/10 cursor-pointer active:opacity-60 active:scale-95'
             }
           `}
           title={getMemoryButtonTitle(btn.label)}
