@@ -10,12 +10,16 @@ const HistoryPanel = ({
   onHistoryItemClick,
   memoryValue,
   onMemoryClear,
-  onMemoryRecall
+  onMemoryRecall,
+  maxHeight
 }) => {
   const [activeTab, setActiveTab] = useState('history');
 
   return (
-    <div className="flex-shrink-0 w-80 max-h-[calc(100vh-2rem)] bg-calc-bg/95 backdrop-blur-20 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    <div
+      className="flex-shrink-0 md:w-80 bg-calc-bg/95 backdrop-blur-20 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+      style={{ maxHeight: maxHeight || 'calc(100vh - 2rem)' }}
+    >
       {/* Header with Tabs */}
       <div className="bg-calc-header border-b border-white/10 flex-shrink-0">
         <div className="flex">

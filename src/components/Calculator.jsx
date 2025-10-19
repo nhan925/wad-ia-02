@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useCalculator } from '../hooks/useCalculator';
 import { useMemory } from '../hooks/useMemory';
 import Display from './Display';
@@ -135,11 +135,27 @@ const Calculator = () => {
     };
   }, [handleKeyPress]);
 
+  // Observe calculator height for history panel max height
+  const [calcHeight, setCalcHeight] = useState(0);
+  const calcRef = useRef(null);
+
+  useEffect(() => {
+    if (!calcRef.current) return;
+
+    const observer = new ResizeObserver(entries => {
+      setCalcHeight(entries[0].contentRect.height);
+    });
+
+    observer.observe(calcRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="w-full max-w-7xl mx-auto flex gap-4 items-start justify-center px-4">
       {/* Calculator Main Section */}
       <div className="flex-shrink-0 w-full max-w-md max-h-[calc(100vh-2rem)]">
-        <div className="bg-calc-bg/95 backdrop-blur-20 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-calc-bg/95 backdrop-blur-20 rounded-2xl shadow-2xl overflow-hidden" ref={calcRef}>
           {/* Header */}
           <div className="bg-calc-header px-5 py-3.5 border-b border-white/10">
             <div className="flex items-center justify-between">
@@ -200,6 +216,7 @@ const Calculator = () => {
           memoryValue={memoryValue}
           onMemoryClear={handleMemoryClear}
           onMemoryRecall={handleMemoryRecall}
+          maxHeight={calcHeight}
         />
       )}
     </div>
