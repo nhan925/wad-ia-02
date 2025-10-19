@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 
 /**
  * Custom hook for calculator memory functionality
@@ -21,28 +22,32 @@ export const useMemory = () => {
   };
 
   /**
-   * Memory Add (M+) - Add current value to memory
+   * Memory Add (M+) - Add current value to memory using Decimal.js
    */
   const memoryAdd = (value) => {
-    const num = parseFloat(value);
-    if (!isNaN(num)) {
+    try {
+      const num = new Decimal(value);
       setMemoryValue(prev => {
-        if (prev === null) return num;
-        return prev + num;
+        if (prev === null) return num.toString();
+        return new Decimal(prev).plus(num).toString();
       });
+    } catch (e) {
+      // Invalid input, do nothing
     }
   };
 
   /**
-   * Memory Subtract (M−) - Subtract current value from memory
+   * Memory Subtract (M−) - Subtract current value from memory using Decimal.js
    */
   const memorySubtract = (value) => {
-    const num = parseFloat(value);
-    if (!isNaN(num)) {
+    try {
+      const num = new Decimal(value);
       setMemoryValue(prev => {
-        if (prev === null) return -num;
-        return prev - num;
+        if (prev === null) return num.neg().toString();
+        return new Decimal(prev).minus(num).toString();
       });
+    } catch (e) {
+      // Invalid input, do nothing
     }
   };
 
@@ -50,9 +55,11 @@ export const useMemory = () => {
    * Memory Store (MS) - Store current value in memory
    */
   const memoryStore = (value) => {
-    const num = parseFloat(value);
-    if (!isNaN(num)) {
-      setMemoryValue(num);
+    try {
+      const num = new Decimal(value);
+      setMemoryValue(num.toString());
+    } catch (e) {
+      // Invalid input, do nothing
     }
   };
 

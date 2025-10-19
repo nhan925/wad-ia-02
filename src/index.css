@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Custom colors for calculator */
+  /* Custom colors for calculator - Dark theme */
   --color-calc-bg: rgba(32, 32, 32, 0.95);
   --color-calc-header: rgba(0, 0, 0, 0.2);
   --color-calc-display: rgba(0, 0, 0, 0.2);
@@ -9,6 +9,23 @@
   --color-calc-button-bold: rgba(50, 50, 50, 0.8);
   --color-calc-equals: #0078d4;
   --color-calc-equals-hover: #1084d8;
+
+  /* Light theme colors */
+  --color-calc-bg-light: rgba(255, 255, 255, 0.95);
+  --color-calc-header-light: #f0f0f0;
+  --color-calc-display-light: #f5f5f5;
+  --color-calc-button-light: #f3f3f3;
+  --color-calc-button-bold-light: #e6e6e6;
+  --color-calc-equals-light: #0067c0;
+  --color-calc-equals-hover-light: #005a9e;
+  --color-calc-button-text-light: #202020;
+
+  /* Theme-aware colors */
+  --color-theme-primary: #ffffff;
+  --color-theme-secondary: rgba(255, 255, 255, 0.7);
+  --color-theme-tertiary: rgba(255, 255, 255, 0.5);
+  --color-theme-border: rgba(255, 255, 255, 0.1);
+  --color-theme-hover: rgba(255, 255, 255, 0.1);
 
   /* Custom backdrop blur */
   --backdrop-blur-20: 20px;
@@ -31,9 +48,11 @@
 
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #3F5EFB;
-    background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    background: #0F2027;
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
     overflow: hidden;
+    transition: background 0.3s ease;
   }
 
   #root {
@@ -65,6 +84,157 @@
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Light theme overrides */
+  .light-theme {
+    --color-theme-primary: #202020;
+    --color-theme-secondary: rgba(32, 32, 32, 0.7);
+    --color-theme-tertiary: rgba(32, 32, 32, 0.5);
+    --color-theme-border: rgba(0, 0, 0, 0.1);
+    --color-theme-hover: rgba(0, 0, 0, 0.05);
+  }
+
+  .light-theme body {
+    background: #FFEFBA;
+    background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);
+    background: linear-gradient(to right, #FFFFFF, #FFEFBA);
+  }
+
+  /* Light theme calculator styling */
+  .light-theme .bg-calc-bg {
+    background: var(--color-calc-bg-light) !important;
+  }
+
+  .light-theme .bg-calc-header {
+    background: var(--color-calc-header-light) !important;
+  }
+
+  .light-theme .bg-calc-display {
+    background: var(--color-calc-display-light) !important;
+  }
+
+  .light-theme .bg-calc-button {
+    background: var(--color-calc-button-light) !important;
+    color: var(--color-calc-button-text-light) !important;
+  }
+
+  .light-theme .bg-calc-button:hover {
+    background: #dcdcdc !important;
+  }
+
+  /* Ensure hover state consistency - number buttons hover to bold */
+  .light-theme .hover\:bg-calc-button-bold:hover {
+    background: var(--color-calc-button-bold-light) !important;
+    color: var(--color-calc-button-text-light) !important;
+  }
+
+  .light-theme .bg-calc-button-bold {
+    background: var(--color-calc-button-bold-light) !important;
+    color: var(--color-calc-button-text-light) !important;
+  }
+
+  .light-theme .bg-calc-button-bold:hover {
+    background: #d2d2d2 !important;
+  }
+
+  /* Ensure hover state consistency - operator buttons hover to lighter */
+  .light-theme .hover\:bg-calc-button:hover {
+    background: var(--color-calc-button-light) !important;
+    color: var(--color-calc-button-text-light) !important;
+  }
+
+  .light-theme .bg-calc-equals {
+    background: var(--color-calc-equals-light) !important;
+  }
+
+  .light-theme .bg-calc-equals:hover {
+    background: var(--color-calc-equals-hover-light) !important;
+  }
+
+  /* Ensure gradient button hover state in light theme */
+  .light-theme .hover\:from-calc-equals-hover:hover {
+    background: linear-gradient(to bottom right, var(--color-calc-equals-hover-light), #004d8c) !important;
+  }
+
+  .light-theme .text-calc-equals {
+    color: var(--color-calc-equals-light) !important;
+  }
+
+  .light-theme .border-calc-equals {
+    border-color: var(--color-calc-equals-light) !important;
+  }
+
+  .light-theme .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .light-theme .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Override text-white in light theme for buttons */
+  .light-theme button.text-white {
+    color: var(--color-calc-button-text-light) !important;
+  }
+
+  /* Keep equals button text white in light theme */
+  .light-theme button.bg-gradient-to-br.from-calc-equals {
+    color: #ffffff !important;
+  }
+
+  /* Fix transparent backgrounds in light theme */
+  .light-theme .bg-calc-display\/30 {
+    background: rgba(230, 230, 230, 0.5) !important;
+  }
+
+  .light-theme .bg-calc-display\/50 {
+    background: rgba(230, 230, 230, 0.7) !important;
+  }
+
+  /* Fix calculator background with opacity in light theme */
+  .light-theme .bg-calc-bg\/95 {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Fix transparent button container background in light theme */
+  .light-theme .bg-transparent {
+    background: transparent !important;
+  }
+
+  /* Ensure button grid container has proper background */
+  .light-theme div.grid.bg-transparent {
+    background: #ffffff !important;
+  }
+
+  /* Fix equals button background with opacity in light theme */
+  .light-theme .bg-calc-equals\/20 {
+    background: rgba(0, 103, 192, 0.2) !important;
+  }
+
+  /* Ensure memory buttons hover state works properly in light theme */
+  .light-theme .hover\:bg-theme-hover:hover {
+    background: var(--color-theme-hover) !important;
+  }
+
+  .light-theme .hover\:text-theme-primary:hover {
+    color: var(--color-theme-primary) !important;
+  }
+
+  /* Mobile modal animation */
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out forwards;
   }
 }
 

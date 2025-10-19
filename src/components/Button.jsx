@@ -4,7 +4,7 @@
 const Button = ({ value, onClick, className = '', span = 1, children, disabled = false }) => (
   <button
     className={`
-      px-5 py-4 font-semibold rounded-lg
+      px-3 md:px-5 py-3 md:py-4 text-sm md:text-base font-semibold rounded-lg
       transition-all duration-150 ease-in-out
       hover:scale-[1.02] active:scale-95 active:opacity-60
       focus:outline-none

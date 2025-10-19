@@ -18,9 +18,9 @@ const CalculatorButtons = ({
   onToggleSign
 }) => {
   return (
-    <div className="grid grid-cols-4 gap-1 p-3 bg-transparent">
+    <div className="grid grid-cols-4 gap-0.5 md:gap-1 p-2 md:p-3 bg-transparent">
       {/* Row 1 */}
-      <Button value="%" onClick={onPercentage} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button value="%" onClick={onPercentage} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light text-base md:text-lg">
         {'\uE94C'}
       </Button>
       <Button value="CE" onClick={onClearEntry} className="bg-calc-button-bold hover:bg-calc-button text-white">
