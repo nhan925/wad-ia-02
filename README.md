@@ -1,415 +1,103 @@
 # Windows 11 Calculator - Web Application
 
-A fully functional web-based calculator that replicates the Windows 11 Calculator's Basic Mode. Built with React, Vite, and Tailwind CSS, featuring a modern UI, calculation history, responsive design, complete keyboard support, and comprehensive unit tests.
+A fully functional web-based calculator that replicates the Windows 11 Calculator's Basic Mode. Built with React, Vite, and Tailwind CSS, featuring a modern UI with dark/light themes, calculation history, memory functions, and complete keyboard support with responsive design.
 
-![Calculator Preview](https://img.shields.io/badge/React-18.3.1-blue) ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8) ![Vitest](https://img.shields.io/badge/Vitest-Tested-success) ![License](https://img.shields.io/badge/License-MIT-green)
+![Calculator Preview](https://img.shields.io/badge/React-18.3.1-blue) ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.0-38bdf8) ![Vite](https://img.shields.io/badge/Vite-5.4-646CFF) ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Functional Specifications](#-functional-specifications)
-- [Non-Functional Specifications](#-non-functional-specifications)
-- [Acceptance Criteria](#-acceptance-criteria)
-- [Testing Plan](#-testing-plan)
-- [Installation & Setup](#-installation--setup)
-- [Deployment to GitHub Pages](#-deployment-to-github-pages)
-- [Usage Guide](#-usage-guide)
-- [Technology Stack](#-technology-stack)
-- [Project Structure](#-project-structure)
 - [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Installation & Setup](#-installation--setup)
+- [Usage Guide](#-usage-guide)
+- [Deployment to GitHub Pages](#-deployment-to-github-pages)
+- [Project Structure](#-project-structure)
+- [Documentation](#-documentation)
 - [License](#-license)
 
 ---
 
-## 🧰 Functional Specifications
+## ✨ Features
 
-### Purpose and Scope
+### Core Functionality
+✅ **Complete Arithmetic Operations**: Addition, subtraction, multiplication, division  
+✅ **Sequential Calculation Logic**: Left-to-right evaluation (e.g., `2 + 3 × 4 = 20`)  
+✅ **Special Functions**: Square root (√), square (x²), reciprocal (¹⁄ₓ), percentage (%)  
+✅ **Sign Toggle**: Positive/negative switching (±)  
+✅ **Decimal Support**: Full floating-point precision using Decimal.js  
+✅ **Error Handling**: Graceful handling of division by zero and invalid operations  
 
-The Windows 11 Calculator Web Application is a single-page application designed to replicate the exact functionality and visual appearance of the Windows 11 Calculator in Basic Mode. The calculator provides all standard arithmetic operations, advanced functions, and a clean, intuitive user interface that works seamlessly across desktop and mobile devices.
+### Memory Operations
+✅ **Memory Store (MS)**: Save current value to memory  
+✅ **Memory Recall (MR)**: Retrieve stored memory value  
+✅ **Memory Add (M+)**: Add current value to memory  
+✅ **Memory Subtract (M−)**: Subtract current value from memory  
+✅ **Memory Clear (MC)**: Clear memory storage  
+✅ **Visual Indicator**: "M" badge shows when memory contains a value  
 
-### Supported Features
+### Calculation History
+✅ **Persistent History**: All calculations automatically saved with timestamps  
+✅ **History Panel**: Toggle-able sidebar showing past calculations  
+✅ **Click to Reuse**: Select any history entry to load its result  
+✅ **Clear History**: Remove all history entries  
+✅ **Real-time Updates**: History updates immediately after calculations  
 
-#### 1. **Display System**
-- **Main Display**: Shows the current number being entered or the result of calculations
-- **History Display**: Shows the sequence of operations (e.g., `15 + 3 -`) above the main display
-- Dynamic text sizing and scrolling for long numbers
+### User Interface
+✅ **Windows 11 Design**: Authentic Windows 11 Calculator appearance  
+✅ **Dark/Light Themes**: Toggle between dark and light color schemes  
+✅ **Theme Persistence**: Selected theme saved to localStorage  
+✅ **Smooth Animations**: Polished transitions and hover effects  
+✅ **Visual Feedback**: Clear hover, active, and focus states  
 
-#### 2. **Number Input**
-- Digit buttons: 0-9
-- Decimal point (`.`) for floating-point numbers
-- Support for multiple decimal places
-- Automatic zero handling (no leading zeros except for decimals)
+### Input Methods
+✅ **Full Keyboard Support**: All operations accessible via keyboard  
+✅ **Mouse/Touch Input**: Click or tap any button  
+✅ **Keyboard Shortcuts**: Quick access to all functions (see Usage Guide)  
 
-#### 3. **Basic Arithmetic Operations**
-- **Addition** (`+`): Adds two numbers
-- **Subtraction** (`−`): Subtracts the second number from the first
-- **Multiplication** (`×`): Multiplies two numbers
-- **Division** (`÷`): Divides the first number by the second
-- **Equals** (`=`): Evaluates the current expression
-- **Sequential Operation Logic**: Operations are performed left-to-right. Example: `2 + 3 × 4 =` results in `20` (not `14`)
+### Responsive Design
+✅ **Mobile Optimized**: History panel appears as popup on mobile  
+✅ **Adaptive Layout**: Optimized for phones, tablets, and desktops  
+✅ **Touch-Friendly**: Large button targets for mobile devices  
+✅ **Responsive Text**: Text sizes adjust based on screen size  
+✅ **Cross-Browser**: Works on Chrome, Firefox, Safari, and Edge  
 
-#### 4. **Special Functions**
-- **Percentage** (`%`): 
-  - For `+` and `−`: Calculates percentage of the first operand
-  - Example: `200 + 10%` = `200 + 20` = `220`
-  - Example: `200 - 10%` = `200 - 20` = `180`
-  - For `×` and `÷`: Converts to decimal percentage
-  
-- **Square Root** (`√`): Calculates the square root of the current display value
-  - Example: `√25` = `5`
-  - Handles negative numbers with error message
-
-- **Square** (`x²`): Squares the current display value
-  - Example: `5` → `x²` = `25`
-
-- **Reciprocal** (`¹⁄ₓ`): Calculates 1 divided by the current value
-  - Example: `4` → `¹⁄ₓ` = `0.25`
-  - Handles division by zero with error message
-
-- **Negate** (`±`): Toggles between positive and negative
-  - Example: `5` → `±` = `-5`
-
-#### 5. **Control Functions**
-- **Clear Entry** (`CE`): Clears only the current input, preserving the operation chain
-- **Clear** (`C`): Resets the calculator completely (all values and operations)
-- **Backspace** (`⌫`): Deletes the last digit of the current input
-
-#### 6. **Keyboard Support**
-- **Numbers**: `0-9` keys
-- **Operators**: `+`, `-`, `*`, `/`
-- **Decimal**: `.` or `,`
-- **Equals**: `Enter` or `=`
-- **Clear**: `Escape`
-- **Clear Entry**: `Delete`
-- **Backspace**: `Backspace`
-- **Percentage**: `%`
-
-#### 7. **Calculation History** ✨ NEW
-- **History Panel**: Toggle-able sidebar showing past calculations
-- **Automatic Recording**: All completed calculations are saved to history
-- **Timestamp**: Each history entry shows when it was calculated
-- **Click to Reuse**: Click any history entry to load its result into the calculator
-- **Clear History**: Button to clear all history entries
-- **Real-time Updates**: History updates immediately after each calculation
-
-#### 8. **Memory Functions** (UI placeholder)
-- MC, MR, M+, M−, MS buttons (currently disabled, ready for future implementation)
-
-### User Interaction
-
-#### Input Flow
-1. User clicks a number button or types on keyboard
-2. Number appears in the main display
-3. User selects an operation (`+`, `−`, `×`, `÷`)
-4. Operation is added to the history display
-5. User enters the second number
-6. User presses `=` to calculate or another operator to chain operations
-
-#### Sequential Operations
-The calculator follows a sequential evaluation model:
-- `5 + 3 = 8`
-- `5 + 3 × 2 =` → `(5 + 3) × 2 = 16`
-- Operations are evaluated immediately when a new operator is pressed
-
-#### Error Handling
-- **Division by Zero**: Displays "Cannot divide by zero"
-- **Square Root of Negative**: Displays "Invalid input"
-- **Invalid Operations**: Gracefully handled with appropriate messages
-
-### Assumptions
-
-1. **Number Precision**: JavaScript's native number precision is used (IEEE 754 double-precision)
-2. **Decimal Rounding**: Long decimal results are displayed in full; user can scroll
-3. **Operation Chaining**: Each operation is evaluated before the next one begins
-4. **Percentage Calculation**: Based on Windows 11 Calculator behavior:
-   - For addition/subtraction: percentage of first operand
-   - For multiplication/division: direct percentage conversion
-5. **Error Recovery**: After an error, any number input resets the calculator
-6. **Repeated Equals**: Pressing `=` multiple times repeats the last operation
+### Control Functions
+✅ **Clear All (C)**: Reset calculator completely  
+✅ **Clear Entry (CE)**: Clear current input only  
+✅ **Backspace (⌫)**: Delete last digit entered  
 
 ---
 
-## ⚙️ Non-Functional Specifications
+## 🛠️ Technology Stack
 
-### Performance
-- **Instant Response**: All button clicks and keyboard inputs respond within 16ms (60 FPS)
-- **Smooth Animations**: Button press animations and hover effects use CSS transitions
-- **Optimized Rendering**: React's state management ensures minimal re-renders
-- **Lightweight Bundle**: Production build is optimized with Vite's tree-shaking
+### Core Technologies
+- **React 18.3.1** - Modern UI library with hooks
+- **Vite 5.4.2** - Lightning-fast build tool and dev server
+- **Tailwind CSS 4.0** - Utility-first CSS framework
+- **Decimal.js 10.4.3** - Arbitrary-precision decimal arithmetic
 
-### Usability
-- **Intuitive Layout**: Matches the familiar Windows 11 Calculator interface
-- **Clear Visual Feedback**: Hover, active, and focus states for all interactive elements
-- **Accessible Design**: High contrast mode support and reduced motion preferences
-- **Error Messages**: Clear, user-friendly error messages for invalid operations
-- **Touch-Friendly**: Large button targets (minimum 44×44px) for mobile devices
+### Styling & Design
+- **PostCSS** - CSS processing
+- **Autoprefixer** - Cross-browser CSS compatibility
+- **Custom CSS Variables** - Dynamic theming system
 
-### Cross-Browser Compatibility
-The application has been tested and confirmed to work on:
-- **Google Chrome** (v120+)
-- **Microsoft Edge** (v120+)
-- **Mozilla Firefox** (v120+)
-- **Safari** (v17+)
+### Custom Hooks
+- **useCalculator** - Calculator logic and state management
+- **useMemory** - Memory operations (MS, MR, M+, M−, MC)
+- **useTheme** - Dark/light theme toggling with persistence
 
-Uses standard web technologies:
-- ES6+ JavaScript with Babel transpilation for older browsers
-- CSS3 with vendor prefixes for maximum compatibility
-- No proprietary or experimental APIs
+### Development Tools
+- **@vitejs/plugin-react** - Fast Refresh and JSX support
+- **ESLint** - Code quality and consistency
+- **gh-pages** - Automated GitHub Pages deployment
 
-### Responsiveness
-- **Mobile First**: Optimized for screens as small as 320px wide
-- **Breakpoints**:
-  - Mobile: 320px - 480px
-  - Tablet: 481px - 768px
-  - Desktop: 769px and above
-- **Adaptive Layout**: Button sizes, fonts, and spacing adjust based on viewport
-- **Orientation Support**: Works in both portrait and landscape modes
-- **Touch Gestures**: Optimized touch targets with no tap delay
-
-### Reliability and Maintainability
-- **Clean Code**: Well-structured, commented, and follows React best practices
-- **Component-Based**: Modular architecture for easy maintenance
-- **State Management**: Centralized state using React hooks
-- **Error Boundaries**: Graceful error handling prevents crashes
-- **Version Control**: Git-based workflow with clear commit history
-- **Documentation**: Comprehensive inline comments and external documentation
-
-### Accessibility
-- **Keyboard Navigation**: Full keyboard support for all operations
-- **Screen Reader Ready**: Semantic HTML structure
-- **High Contrast Mode**: Adapts to system-level contrast preferences
-- **Reduced Motion**: Respects user's motion preferences
-- **Focus Indicators**: Clear focus states for keyboard navigation
-
-### Security
-- **No External Dependencies**: Minimal attack surface with few third-party libraries
-- **Client-Side Only**: No server communication or data transmission
-- **No Data Storage**: No cookies, localStorage, or tracking
-
----
-
-## ✅ Acceptance Criteria
-
-The following criteria must be met for the project to be considered complete and acceptable:
-
-### 1. Core Arithmetic Operations
-- ✅ Addition (`+`) returns mathematically correct results
-- ✅ Subtraction (`−`) returns mathematically correct results
-- ✅ Multiplication (`×`) returns mathematically correct results
-- ✅ Division (`÷`) returns mathematically correct results
-- ✅ Equals (`=`) evaluates expressions correctly
-
-### 2. Sequential Operation Logic
-- ✅ `5 + 2 + 1 =` yields `8` (not `3`)
-- ✅ `10 / 2 * 3 =` yields `15` (not `1.666...`)
-- ✅ `2 + 3 * 4 =` yields `20` (not `14`)
-- ✅ Operations are evaluated left-to-right
-
-### 3. Special Functions
-- ✅ Percentage (`%`) calculates correctly based on context:
-  - `100 + 10%` results in `110`
-  - `200 - 10%` results in `180`
-- ✅ Square root (`√`) calculates correctly:
-  - `√16` results in `4`
-  - `√(-1)` shows error message
-- ✅ Square (`x²`) calculates correctly:
-  - `5²` results in `25`
-- ✅ Reciprocal (`¹⁄ₓ`) calculates correctly:
-  - `1/4` results in `0.25`
-- ✅ Negate (`±`) toggles sign correctly
-
-### 4. Control Functions
-- ✅ `CE` (Clear Entry) clears only the current input
-- ✅ `C` (Clear) resets the entire calculator
-- ✅ Backspace (`⌫`) deletes the last digit
-- ✅ All control functions work as expected in various scenarios
-
-### 5. Display Behavior
-- ✅ Main display updates accurately after every input
-- ✅ History display shows operation sequence correctly
-- ✅ Long numbers are scrollable and fully visible
-- ✅ Decimal numbers display correctly
-
-### 6. Error Handling
-- ✅ Division by zero displays "Cannot divide by zero"
-- ✅ Square root of negative displays "Invalid input"
-- ✅ Reciprocal of zero displays error message
-- ✅ Calculator can recover from errors with new input
-
-### 7. User Interface
-- ✅ Design closely resembles Windows 11 Calculator
-- ✅ All buttons are clearly labeled and functional
-- ✅ Hover effects provide visual feedback
-- ✅ Button press animations work smoothly
-
-### 8. Responsiveness
-- ✅ Layout adapts to mobile screens (320px+)
-- ✅ Layout adapts to tablet screens (768px+)
-- ✅ Layout adapts to desktop screens (1024px+)
-- ✅ All buttons remain accessible and usable on small screens
-
-### 9. Cross-Browser Compatibility
-- ✅ Functions correctly in Chrome
-- ✅ Functions correctly in Edge
-- ✅ Functions correctly in Firefox
-- ✅ Functions correctly in Safari
-
-### 10. Keyboard Support
-- ✅ Number keys (`0-9`) input numbers
-- ✅ Operator keys (`+`, `-`, `*`, `/`) select operations
-- ✅ `Enter` or `=` key evaluates expression
-- ✅ `Escape` key clears calculator
-- ✅ `Delete` key clears current entry
-- ✅ `Backspace` key deletes last digit
-
----
-
-## 🧪 Testing Plan
-
-### Methodology
-
-**Primary Testing Method**: Manual Testing
-
-Manual testing was chosen as the primary methodology due to:
-1. The visual nature of the calculator interface
-2. The need to verify UI/UX behavior across different devices
-3. The relatively small scope of the application
-4. The importance of user experience validation
-
-**Testing Environment**:
-- Browsers: Chrome 120, Edge 120, Firefox 120, Safari 17
-- Devices: Desktop (1920×1080), Tablet (768×1024), Mobile (375×667)
-- Operating Systems: Windows 11, macOS Sonoma, iOS 17, Android 14
-
-### Test Cases
-
-#### Basic Arithmetic Operations
-
-| Feature | Input | Expected Output | Actual Output | Result |
-|---------|-------|----------------|---------------|--------|
-| Addition | `2 + 3 =` | `5` | `5` | ✅ Pass |
-| Subtraction | `10 - 4 =` | `6` | `6` | ✅ Pass |
-| Multiplication | `5 × 6 =` | `30` | `30` | ✅ Pass |
-| Division | `20 ÷ 4 =` | `5` | `5` | ✅ Pass |
-| Decimal Addition | `1.5 + 2.5 =` | `4` | `4` | ✅ Pass |
-| Negative Numbers | `-5 + 10 =` | `5` | `5` | ✅ Pass |
-
-#### Sequential Operations
-
-| Feature | Input | Expected Output | Actual Output | Result |
-|---------|-------|----------------|---------------|--------|
-| Chain Addition | `1 + 2 + 3 =` | `6` | `6` | ✅ Pass |
-| Chain Multiplication | `2 × 3 × 4 =` | `24` | `24` | ✅ Pass |
-| Mixed Operations | `10 / 2 * 3 =` | `15` | `15` | ✅ Pass |
-| Complex Chain | `5 + 3 - 2 * 4 =` | `24` | `24` | ✅ Pass |
-| Left-to-Right | `2 + 3 * 4 =` | `20` | `20` | ✅ Pass |
-
-#### Special Functions
-
-| Feature | Input | Expected Output | Actual Output | Result |
-|---------|-------|----------------|---------------|--------|
-| Square Root | `√16` | `4` | `4` | ✅ Pass |
-| Square Root (Decimal) | `√2` | `1.414...` | `1.4142135623730951` | ✅ Pass |
-| Square Root (Zero) | `√0` | `0` | `0` | ✅ Pass |
-| Square Root (Negative) | `√(-4)` | Error | `Invalid input` | ✅ Pass |
-| Square | `5 x²` | `25` | `25` | ✅ Pass |
-| Reciprocal | `4 ¹⁄ₓ` | `0.25` | `0.25` | ✅ Pass |
-| Reciprocal (Zero) | `0 ¹⁄ₓ` | Error | `Cannot divide by zero` | ✅ Pass |
-| Negate (Positive) | `5 ±` | `-5` | `-5` | ✅ Pass |
-| Negate (Negative) | `-5 ±` | `5` | `5` | ✅ Pass |
-
-#### Percentage Calculations
-
-| Feature | Input | Expected Output | Actual Output | Result |
-|---------|-------|----------------|---------------|--------|
-| Percentage Add | `100 + 10% =` | `110` | `110` | ✅ Pass |
-| Percentage Subtract | `200 - 10% =` | `180` | `180` | ✅ Pass |
-| Percentage Multiply | `50 × 10% =` | `5` | `5` | ✅ Pass |
-| Percentage Divide | `100 ÷ 10% =` | `1000` | `1000` | ✅ Pass |
-| Standalone Percent | `50 %` | `0.5` | `0.5` | ✅ Pass |
-
-#### Control Functions
-
-| Feature | Input Sequence | Expected Output | Actual Output | Result |
-|---------|---------------|----------------|---------------|--------|
-| Clear Entry | `5 + 9`, press `CE`, `4 =` | `9` | `9` | ✅ Pass |
-| Clear All | `5 + 5`, press `C`, `3 =` | `3` | `3` | ✅ Pass |
-| Backspace (Single) | `123`, press `⌫` | `12` | `12` | ✅ Pass |
-| Backspace (Multiple) | `456`, press `⌫⌫` | `4` | `4` | ✅ Pass |
-| Backspace to Zero | `7`, press `⌫` | `0` | `0` | ✅ Pass |
-
-#### Error Handling
-
-| Feature | Input | Expected Output | Actual Output | Result |
-|---------|-------|----------------|---------------|--------|
-| Division by Zero | `5 ÷ 0 =` | Error | `Cannot divide by zero` | ✅ Pass |
-| Zero Reciprocal | `0 ¹⁄ₓ` | Error | `Cannot divide by zero` | ✅ Pass |
-| Negative Square Root | `5 ± √` | Error | `Invalid input` | ✅ Pass |
-| Recovery from Error | Error state, press `5` | `5` | `5` | ✅ Pass |
-
-#### Display Functions
-
-| Feature | Input | Expected Display | Actual Display | Result |
-|---------|-------|-----------------|----------------|--------|
-| History Update | `5 + 3` | History: `5 +` | History: `5 +` | ✅ Pass |
-| Main Display | `123` | Main: `123` | Main: `123` | ✅ Pass |
-| Decimal Display | `0.5` | Main: `0.5` | Main: `0.5` | ✅ Pass |
-| Long Number | `123456789.987654321` | Scrollable | Scrollable | ✅ Pass |
-| Result Display | `5 + 5 =` | Main: `10`, History: `5 + 5 =` | Correct | ✅ Pass |
-
-#### Keyboard Input
-
-| Feature | Keyboard Input | Expected Output | Actual Output | Result |
-|---------|---------------|----------------|---------------|--------|
-| Number Keys | `1`, `2`, `3` | `123` | `123` | ✅ Pass |
-| Operator Keys | `5`, `+`, `3`, `Enter` | `8` | `8` | ✅ Pass |
-| Escape Key | `5 + 5`, press `Esc` | `0` | `0` | ✅ Pass |
-| Delete Key | `5 + 9`, press `Del` | `0` (CE) | `0` | ✅ Pass |
-| Backspace Key | `123`, press `Backspace` | `12` | `12` | ✅ Pass |
-| Decimal Key | `.`, `5` | `0.5` | `0.5` | ✅ Pass |
-| Percent Key | `100 + 10%` | `10` added | `10` added | ✅ Pass |
-
-#### Responsive Design
-
-| Feature | Screen Size | Expected Behavior | Actual Behavior | Result |
-|---------|------------|-------------------|-----------------|--------|
-| Mobile (375px) | iPhone SE | Buttons fit, readable | All elements visible | ✅ Pass |
-| Mobile (360px) | Android Small | Buttons accessible | All elements accessible | ✅ Pass |
-| Tablet (768px) | iPad | Larger buttons | Larger buttons | ✅ Pass |
-| Desktop (1920px) | Full HD | Centered, optimal size | Centered, optimal size | ✅ Pass |
-| Orientation Change | Rotate device | Layout adjusts | Layout adjusts | ✅ Pass |
-
-#### Browser Compatibility
-
-| Browser | Version | Basic Ops | Special Funcs | Keyboard | Display | Result |
-|---------|---------|-----------|---------------|----------|---------|--------|
-| Chrome | 120 | ✅ | ✅ | ✅ | ✅ | ✅ Pass |
-| Edge | 120 | ✅ | ✅ | ✅ | ✅ | ✅ Pass |
-| Firefox | 120 | ✅ | ✅ | ✅ | ✅ | ✅ Pass |
-| Safari | 17 | ✅ | ✅ | ✅ | ✅ | ✅ Pass |
-
-### Test Results Summary
-
-- **Total Test Cases**: 52
-- **Passed**: 52 ✅
-- **Failed**: 0 ❌
-- **Pass Rate**: 100%
-
-### Known Issues / Limitations
-
-1. **Memory Functions**: MC, MR, M+, M−, MS buttons are UI placeholders (disabled)
-2. **Scientific Mode**: Only Basic Mode is implemented
-3. **History**: No persistent calculation history (resets on page reload)
-4. **Number Precision**: Limited to JavaScript's IEEE 754 double-precision (15-17 significant digits)
-
-### Future Testing Recommendations
-
-1. **Automated Testing**: Implement Jest/React Testing Library for regression testing
-2. **E2E Testing**: Use Playwright or Cypress for full user flow testing
-3. **Accessibility Testing**: Conduct formal WCAG 2.1 AA compliance audit
-4. **Performance Testing**: Measure and optimize Time to Interactive (TTI)
-5. **Load Testing**: Test with rapid input sequences
+### Browser APIs
+- **LocalStorage API** - Theme and history persistence
+- **Keyboard Events API** - Keyboard input handling
+- **CSS Custom Properties** - Dynamic theming
+- **Flexbox & Grid** - Responsive layouts
 
 ---
 
@@ -703,130 +391,77 @@ npm run deploy
 
 ```
 wad-ia-02/
-├── docs/                    # Documentation files
-│   ├── README.md            # Complete documentation
-│   ├── QUICKSTART.md        # Quick start guide
-│   ├── DEPLOYMENT.md        # Deployment instructions
-│   ├── PROJECT_SUMMARY.md   # Project overview
-│   ├── INTERFACE_GUIDE.md   # UI/UX guide
-│   └── INDEX.md             # Documentation index
-├── public/                  # Static assets
-│   └── calculator-icon.svg  # Favicon
+├── docs/                           # Documentation files
+│   ├── FUNCTIONAL_SPECIFICATIONS.md    # Detailed functional requirements
+│   ├── NON_FUNCTIONAL_SPECIFICATIONS.md # Performance and quality specs
+│   ├── ACCEPTANCE_CRITERIA.md          # Project acceptance criteria
+│   ├── TESTING_PLAN.md                 # Comprehensive testing plan
+│   ├── DEPLOYMENT.md                   # Deployment guide
+│   ├── QUICKSTART.md                   # Quick start guide
+│   ├── INTERFACE_GUIDE.md              # UI/UX documentation
+│   ├── PROJECT_SUMMARY.md              # Project overview
+│   └── INDEX.md                        # Documentation index
+├── public/                         # Static assets
+│   └── fonts/                      # Custom fonts (if any)
 ├── src/
-│   ├── components/
-│   │   ├── Calculator.jsx      # Main calculator component
-│   │   └── Calculator.test.jsx # Unit tests
-│   ├── test/
-│   │   └── setup.js         # Test configuration
-│   ├── App.jsx              # Root component
-│   ├── App.css              # App styles (Tailwind)
-│   ├── main.jsx             # React entry point
-│   └── index.css            # Global styles (Tailwind)
-├── .gitignore               # Git ignore rules
-├── index.html               # HTML template
-├── package.json             # Dependencies and scripts
-├── vite.config.js           # Vite & Vitest configuration
-├── tailwind.config.js       # Tailwind CSS configuration
-├── postcss.config.js        # PostCSS configuration
-└── README.md                # This file
+│   ├── components/                 # React components
+│   │   ├── Calculator.jsx              # Main calculator component
+│   │   ├── Display.jsx                 # Display component
+│   │   ├── Button.jsx                  # Reusable button component
+│   │   ├── CalculatorButtons.jsx       # Button grid layout
+│   │   ├── MemoryButtons.jsx           # Memory operation buttons
+│   │   └── HistoryPanel.jsx            # History and memory panel
+│   ├── hooks/                      # Custom React hooks
+│   │   ├── useCalculator.js            # Calculator logic hook
+│   │   ├── useMemory.js                # Memory operations hook
+│   │   └── useTheme.js                 # Theme management hook
+│   ├── utils/                      # Utility functions
+│   │   └── calculatorUtils.js          # Calculator helper functions
+│   ├── App.jsx                     # Root component
+│   ├── App.css                     # App-level styles
+│   ├── main.jsx                    # React entry point
+│   └── index.css                   # Global styles and theme variables
+├── .gitignore                      # Git ignore rules
+├── index.html                      # HTML template
+├── package.json                    # Dependencies and scripts
+├── vite.config.js                  # Vite configuration
+├── tailwind.config.js              # Tailwind CSS configuration (if needed)
+├── postcss.config.js               # PostCSS configuration
+└── README.md                       # This file
 ```
 
 ### Key Files
 
-- **Calculator.jsx**: Contains all calculator logic and UI (Tailwind CSS)
-- **Calculator.test.jsx**: Comprehensive unit tests with 60+ test cases
-- **vite.config.js**: Build and test configuration
-- **tailwind.config.js**: Custom Tailwind theme configuration
+- **Calculator.jsx**: Main component with state management and layout
+- **useCalculator.js**: Custom hook containing all calculation logic
+- **useMemory.js**: Custom hook for memory operations (MC, MR, M+, M−, MS)
+- **useTheme.js**: Custom hook for dark/light theme toggling
+- **calculatorUtils.js**: Utility functions for formatting and validation
+- **index.css**: Global styles, CSS variables for theming, and Tailwind imports
+- **vite.config.js**: Build and development server configuration
 
 ---
 
-## ✨ Features
-
-### Core Features
-✅ Complete arithmetic operations (+, −, ×, ÷)  
-✅ Sequential calculation logic  
-✅ Percentage calculations  
-✅ Square root, square, and reciprocal functions  
-✅ Sign toggle (positive/negative)  
-✅ Clear (C) and Clear Entry (CE)  
-✅ Backspace support  
-
-### UI/UX Features
-✅ Windows 11 Calculator design  
-✅ Dark and light theme support  
-✅ Smooth animations and transitions  
-✅ Hover and active states  
-✅ High contrast mode support  
-✅ Reduced motion support  
-
-### Technical Features
-✅ Full keyboard support  
-✅ Responsive design (mobile, tablet, desktop)  
-✅ Cross-browser compatibility  
-✅ Error handling and validation  
-✅ No external API dependencies  
-✅ Fast load times (<1s)  
-✅ Comprehensive unit tests (60+ test cases)  
-✅ Calculation history with persistent storage
+## 📚 Documentation
 
 ---
 
-## 🧪 Running Tests
+## � Documentation
 
-This project uses **Vitest** and **React Testing Library** for unit testing.
+Comprehensive project documentation is available in the `docs/` folder:
 
-### Run Tests
-
-```bash
-# Run tests once
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage report
-npm run test:coverage
-
-# Run tests with UI
-npm run test:ui
-```
-
-### Test Coverage
-
-The test suite includes 60+ test cases covering:
-- ✅ Component rendering
-- ✅ Basic arithmetic operations (addition, subtraction, multiplication, division)
-- ✅ Sequential operations (chained calculations)
-- ✅ Special functions (square root, square, reciprocal, percentage, negate)
-- ✅ Control functions (clear, clear entry, backspace)
-- ✅ Error handling (division by zero, invalid inputs)
-- ✅ Decimal operations
-- ✅ History functionality
-- ✅ User interactions and keyboard events
-
-### Example Test Output
-
-```
-✓ src/components/Calculator.test.jsx (60)
-  ✓ Calculator Component (60)
-    ✓ Rendering (8)
-    ✓ Basic Operations (5)
-    ✓ Sequential Operations (3)
-    ✓ Special Functions (4)
-    ✓ Control Functions (3)
-    ✓ Error Handling (2)
-    ✓ Decimal Operations (2)
-    ✓ History Functionality (2)
-
- Test Files  1 passed (1)
-      Tests  60 passed (60)
-   Start at  13:45:00
-   Duration  2.34s
-```
+- **[Functional Specifications](docs/FUNCTIONAL_SPECIFICATIONS.md)** - Complete feature documentation with 23 supported features
+- **[Non-Functional Specifications](docs/NON_FUNCTIONAL_SPECIFICATIONS.md)** - Performance, usability, compatibility, and security requirements
+- **[Acceptance Criteria](docs/ACCEPTANCE_CRITERIA.md)** - 34 testable acceptance criteria with pass/fail status
+- **[Testing Plan](docs/TESTING_PLAN.md)** - Comprehensive testing strategy with 118 test cases
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Step-by-step deployment to GitHub Pages
+- **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
+- **[Interface Guide](docs/INTERFACE_GUIDE.md)** - UI/UX design documentation
+- **[Project Summary](docs/PROJECT_SUMMARY.md)** - High-level project overview
 
 ---
 
-## 📝 License
+## �📝 License
 
 This project is licensed under the MIT License.
 
