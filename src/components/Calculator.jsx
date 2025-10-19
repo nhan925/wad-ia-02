@@ -25,6 +25,7 @@ const Calculator = () => {
     calculationHistory,
     waitingForOperand,
     setWaitingForOperand,
+    hasError,
     inputNumber,
     inputDecimal,
     clearEntry,
@@ -240,6 +241,7 @@ const Calculator = () => {
               onSquare={handleSquare}
               onReciprocal={handleReciprocal}
               onToggleSign={toggleSign}
+              hasError={hasError}
             />
           </div>
         </div>

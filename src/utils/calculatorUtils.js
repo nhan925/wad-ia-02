@@ -25,7 +25,7 @@ export const getMaxLength = (value) => {
  */
 export const formatDisplayValue = (value, keepZeros = false) => {
   // If it's an error message, return as is
-  if (typeof value === 'string' && (value.includes('Cannot') || value.includes('Invalid')) || (/^0\.0*$/.test(value) && keepZeros)) {
+  if (typeof value === 'string' && (value.includes('Cannot') || value.includes('Invalid')) || (/^\d\.0*$/.test(value) && keepZeros)) {
     return value;
   }
 

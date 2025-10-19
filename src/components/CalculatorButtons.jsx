@@ -15,12 +15,18 @@ const CalculatorButtons = ({
   onSquareRoot,
   onSquare,
   onReciprocal,
-  onToggleSign
+  onToggleSign,
+  hasError = false
 }) => {
   return (
     <div className="grid grid-cols-4 gap-0.5 md:gap-1 p-2 md:p-3 bg-transparent">
       {/* Row 1 */}
-      <Button value="%" onClick={onPercentage} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light text-base md:text-lg">
+      <Button 
+        value="%" 
+        onClick={onPercentage} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light text-base md:text-lg"
+        disabled={hasError}
+      >
         {'\uE94C'}
       </Button>
       <Button value="CE" onClick={onClearEntry} className="bg-calc-button-bold hover:bg-calc-button text-white">
@@ -34,16 +40,36 @@ const CalculatorButtons = ({
       </Button>
 
       {/* Row 2 */}
-      <Button value="¹⁄ₓ" onClick={onReciprocal} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="¹⁄ₓ" 
+        onClick={onReciprocal} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uF7C9'}
       </Button>
-      <Button value="x²" onClick={onSquare} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="x²" 
+        onClick={onSquare} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uF7C8'}
       </Button>
-      <Button value="√" onClick={onSquareRoot} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="√" 
+        onClick={onSquareRoot} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uF899'}
       </Button>
-      <Button value="÷" onClick={() => onOperatorClick('÷')} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="÷" 
+        onClick={() => onOperatorClick('÷')} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uE94A'}
       </Button>
 
@@ -57,7 +83,12 @@ const CalculatorButtons = ({
       <Button value="9" onClick={() => onNumberClick('9')} className="bg-calc-button hover:bg-calc-button-bold text-white">
         9
       </Button>
-      <Button value="×" onClick={() => onOperatorClick('×')} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="×" 
+        onClick={() => onOperatorClick('×')} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uE947'}
       </Button>
 
@@ -71,7 +102,12 @@ const CalculatorButtons = ({
       <Button value="6" onClick={() => onNumberClick('6')} className="bg-calc-button hover:bg-calc-button-bold text-white">
         6
       </Button>
-      <Button value="−" onClick={() => onOperatorClick('−')} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="−" 
+        onClick={() => onOperatorClick('−')} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uE949'}
       </Button>
 
@@ -85,18 +121,33 @@ const CalculatorButtons = ({
       <Button value="3" onClick={() => onNumberClick('3')} className="bg-calc-button hover:bg-calc-button-bold text-white">
         3
       </Button>
-      <Button value="+" onClick={() => onOperatorClick('+')} className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light">
+      <Button 
+        value="+" 
+        onClick={() => onOperatorClick('+')} 
+        className="bg-calc-button-bold hover:bg-calc-button text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uE948'}
       </Button>
 
       {/* Row 6 */}
-      <Button value="±" onClick={onToggleSign} className="bg-calc-button hover:bg-calc-button-bold text-white font-calcicons font-light">
+      <Button 
+        value="±" 
+        onClick={onToggleSign} 
+        className="bg-calc-button hover:bg-calc-button-bold text-white font-calcicons font-light"
+        disabled={hasError}
+      >
         {'\uF898'}
       </Button>
       <Button value="0" onClick={() => onNumberClick('0')} className="bg-calc-button hover:bg-calc-button-bold text-white">
         0
       </Button>
-      <Button value="." onClick={onDecimalClick} className="bg-calc-button hover:bg-calc-button-bold text-white">
+      <Button 
+        value="." 
+        onClick={onDecimalClick} 
+        className="bg-calc-button hover:bg-calc-button-bold text-white"
+        disabled={hasError}
+      >
         .
       </Button>
       <Button

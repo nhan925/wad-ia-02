@@ -14,6 +14,14 @@ export const useCalculator = () => {
   const [lastOperation, setLastOperation] = useState(null);
   const [lastOperand, setLastOperand] = useState(null);
   const [calculationHistory, setCalculationHistory] = useState([]);
+  const [hasError, setHasError] = useState(false);
+
+  /**
+   * Check if current value is an error message
+   */
+  const isErrorMessage = (value) => {
+    return typeof value === 'string' && (value.includes('Cannot') || value.includes('Invalid'));
+  };
 
   /**
    * Add calculation to history
@@ -39,31 +47,69 @@ export const useCalculator = () => {
    * Handles number input
    */
   const inputNumber = useCallback((num) => {
+    // If there's an error, reset and start with the new number
+    if (hasError) {
+      setCurrentValue(String(num));
+      setPreviousValue(null);
+      setOperation(null);
+      setHistoryExpression('');
+      setWaitingForOperand(false);
+      setLastOperation(null);
+      setLastOperand(null);
+      setHasError(false);
+      return;
+    }
+
     if (waitingForOperand) {
       setCurrentValue(String(num));
       setWaitingForOperand(false);
+      // Clear history expression if we're starting a new number after a unary operation
+      // This prevents showing "√(9)" when we've moved on to entering "5"
+      if (historyExpression && !historyExpression.includes('=') && previousValue === null && operation === null) {
+        setHistoryExpression('');
+      }
     } else {
       setCurrentValue(normalize(currentValue === '0' ? String(num) : currentValue + num));
     }
-  }, [currentValue, waitingForOperand]);
+  }, [currentValue, waitingForOperand, hasError, historyExpression, previousValue, operation]);
 
   /**
    * Handles decimal point input
    */
   const inputDecimal = useCallback(() => {
+    // If there's an error, reset and start with 0.
+    if (hasError) {
+      setCurrentValue('0.');
+      setPreviousValue(null);
+      setOperation(null);
+      setHistoryExpression('');
+      setWaitingForOperand(false);
+      setLastOperation(null);
+      setLastOperand(null);
+      setHasError(false);
+      return;
+    }
+
     if (waitingForOperand) {
       setCurrentValue('0.');
       setWaitingForOperand(false);
+      // Clear history expression if we're starting a new number after a unary operation
+      if (historyExpression && !historyExpression.includes('=') && previousValue === null && operation === null) {
+        setHistoryExpression('');
+      }
     } else if (currentValue.indexOf('.') === -1) {
       setCurrentValue(currentValue + '.');
     }
-  }, [currentValue, waitingForOperand]);
+  }, [currentValue, waitingForOperand, hasError, historyExpression, previousValue, operation]);
 
   /**
    * Clears the current entry (CE)
    */
   const clearEntry = () => {
     setCurrentValue('0');
+    if (hasError) {
+      setHasError(false);
+    }
   };
 
   /**
@@ -77,12 +123,26 @@ export const useCalculator = () => {
     setWaitingForOperand(false);
     setLastOperation(null);
     setLastOperand(null);
+    setHasError(false);
   };
 
   /**
    * Backspace function
    */
   const backspace = () => {
+    // If there's an error, clear it
+    if (hasError) {
+      setCurrentValue('0');
+      setPreviousValue(null);
+      setOperation(null);
+      setHistoryExpression('');
+      setWaitingForOperand(false);
+      setLastOperation(null);
+      setLastOperand(null);
+      setHasError(false);
+      return;
+    }
+
     if (!waitingForOperand && currentValue.length > 1) {
       setCurrentValue(currentValue.slice(0, -1));
     } else {
@@ -94,6 +154,11 @@ export const useCalculator = () => {
    * Toggles the sign of the current value
    */
   const toggleSign = () => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     if (currentValue !== '0') {
       const newValue = currentValue.charAt(0) === '-' 
         ? currentValue.slice(1) 
@@ -137,10 +202,16 @@ export const useCalculator = () => {
    * Calculates square root using Decimal.js
    */
   const squareRoot = () => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     try {
       const value = new Decimal(currentValue);
       if (value.isNegative()) {
         setCurrentValue('Invalid input');
+        setHasError(true);
         return;
       }
       const result = value.sqrt();
@@ -181,6 +252,7 @@ export const useCalculator = () => {
       setWaitingForOperand(true);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
   };
 
@@ -188,6 +260,11 @@ export const useCalculator = () => {
    * Handles percentage calculation using Decimal.js
    */
   const handlePercentage = () => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     try {
       const current = new Decimal(currentValue);
       
@@ -218,6 +295,7 @@ export const useCalculator = () => {
       setWaitingForOperand(true);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
   };
 
@@ -225,6 +303,11 @@ export const useCalculator = () => {
    * Handles operator input
    */
   const handleOperator = useCallback((nextOperator) => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     try {
       new Decimal(currentValue); // Validate current value
 
@@ -243,6 +326,7 @@ export const useCalculator = () => {
           setPreviousValue(null);
           setOperation(null);
           setHistoryExpression('');
+          setHasError(true);
           return;
         }
         
@@ -283,13 +367,27 @@ export const useCalculator = () => {
       setOperation(nextOperator);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
-  }, [currentValue, operation, previousValue, waitingForOperand, historyExpression]);
+  }, [currentValue, operation, previousValue, waitingForOperand, historyExpression, hasError]);
 
   /**
    * Handles equals operation
    */
   const handleEquals = () => {
+    // If there's an error, reset calculator to "0"
+    if (hasError) {
+      setCurrentValue('0');
+      setPreviousValue(null);
+      setOperation(null);
+      setHistoryExpression('');
+      setWaitingForOperand(false);
+      setLastOperation(null);
+      setLastOperand(null);
+      setHasError(false);
+      return;
+    }
+
     try {
       new Decimal(currentValue); // Validate current value
 
@@ -300,6 +398,7 @@ export const useCalculator = () => {
         if (typeof result === 'string' && (result.includes('Cannot') || result.includes('Invalid'))) {
           setCurrentValue(result);
           setHistoryExpression('');
+          setHasError(true);
           return;
         }
 
@@ -319,6 +418,8 @@ export const useCalculator = () => {
         setHistoryExpression(expression);
         addToHistory(expression, formatDisplayValue(currentValue));
         setWaitingForOperand(true);
+        setLastOperation(null);
+        setLastOperand(currentValue);
         return;
       }
 
@@ -330,6 +431,7 @@ export const useCalculator = () => {
         setPreviousValue(null);
         setOperation(null);
         setHistoryExpression('');
+        setHasError(true);
         return;
       }
 
@@ -372,6 +474,7 @@ export const useCalculator = () => {
       setWaitingForOperand(true);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
   };
 
@@ -379,6 +482,11 @@ export const useCalculator = () => {
    * Handle square calculation using Decimal.js
    */
   const handleSquare = () => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     try {
       const value = new Decimal(currentValue);
       const result = value.times(value);
@@ -419,6 +527,7 @@ export const useCalculator = () => {
       setWaitingForOperand(true);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
   };
 
@@ -426,10 +535,16 @@ export const useCalculator = () => {
    * Handle reciprocal calculation using Decimal.js
    */
   const handleReciprocal = () => {
+    // Cannot perform operation on error
+    if (hasError) {
+      return;
+    }
+
     try {
       const value = new Decimal(currentValue);
       if (value.isZero()) {
         setCurrentValue('Cannot divide by zero');
+        setHasError(true);
         return;
       }
       const result = new Decimal(1).dividedBy(value);
@@ -470,6 +585,7 @@ export const useCalculator = () => {
       setWaitingForOperand(true);
     } catch (e) {
       setCurrentValue('Invalid input');
+      setHasError(true);
     }
   };
 
@@ -501,6 +617,7 @@ export const useCalculator = () => {
     calculationHistory,
     waitingForOperand,
     setWaitingForOperand,
+    hasError,
     inputNumber,
     inputDecimal,
     clearEntry,
