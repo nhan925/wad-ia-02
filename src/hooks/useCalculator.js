@@ -143,6 +143,18 @@ export const useCalculator = () => {
       return;
     }
 
+    // If we just completed a calculation (expression contains '='), clear the expression too
+    if (historyExpression && historyExpression.includes('=')) {
+      setCurrentValue('0');
+      setHistoryExpression('');
+      setPreviousValue(null);
+      setOperation(null);
+      setWaitingForOperand(false);
+      setLastOperation(null);
+      setLastOperand(null);
+      return;
+    }
+
     if (!waitingForOperand && currentValue.length > 1) {
       setCurrentValue(currentValue.slice(0, -1));
     } else {
@@ -333,10 +345,27 @@ export const useCalculator = () => {
         const newValue = String(result);
         setCurrentValue(newValue);
         setPreviousValue(newValue);
-        // Keep the existing expression if it has unary operations
-        const expression = historyExpression && !historyExpression.includes('=')
-          ? `${historyExpression} ${nextOperator}`
-          : `${formatDisplayValue(newValue)} ${nextOperator}`;
+        
+        // When chaining operations, check if the second operand has a unary expression
+        // Extract the second operand part from the history expression
+        const operatorIndex = historyExpression ? historyExpression.lastIndexOf(operation) : -1;
+        let expression;
+        
+        if (operatorIndex !== -1 && historyExpression && !historyExpression.includes('=')) {
+          // Check if there's content after the operator (unary operations on second operand)
+          const afterOperator = historyExpression.substring(operatorIndex + operation.length).trim();
+          if (afterOperator) {
+            // There's a unary operation on the second operand, use it in the expression
+            expression = `${formatDisplayValue(newValue)} ${nextOperator}`;
+          } else {
+            // No unary operation, just use the result
+            expression = `${formatDisplayValue(newValue)} ${nextOperator}`;
+          }
+        } else {
+          // No history expression or doesn't contain the operator, just use the result
+          expression = `${formatDisplayValue(newValue)} ${nextOperator}`;
+        }
+        
         setHistoryExpression(expression);
       } else if (waitingForOperand) {
         // Operator pressed again while waiting for operand - replace the operator
